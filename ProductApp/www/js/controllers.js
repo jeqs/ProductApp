@@ -32,19 +32,7 @@ function ($scope, $stateParams) {
 			console.log(_id);
 		}
 
-		var data = {
-			"name": "Galaxy Tab",
-	        "type": "smartphone",
-	        "quantity": 10,
-	        "price": 1200000
-	    };
-
-	    $scope.productCreate = function(){
-			productService.item_create.save(data, function(data){
-        		$scope.data = data;
-        		console.log($scope.data);
-    		});
-		}
+		
 
 	}
 ])
@@ -59,5 +47,28 @@ function ($scope, $stateParams, productService) {
 	        	$scope.detail = data;
 	        	console.log($scope.detail);
 	});
+
+}])
+
+.controller('crearProductoCtrl', ['$scope', '$stateParams', 'productService',
+function ($scope, $stateParams, productService) {
+    var data = {
+			"name": "Galaxy b",
+	        "type": "smartphone",
+	        "quantity": 10,
+	        "price": 1200000
+	    };
+    
+    data.name = $scope.name;
+    data.type = $scope.type;
+    data.quantity = $scope.quantity;
+    data.price = $scope.price;
+    
+	    $scope.productCreate = function(){
+			productService.item_create.save(data, function(data){
+        		$scope.data = data;
+        		console.log($scope.data);
+    		});
+		}
 
 }])
