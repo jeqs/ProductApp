@@ -1,0 +1,8 @@
+<ion-view title="Home" id="page2">
+    <ion-content padding="true" class="has-header">
+    	<button id="rest-button1" class=" button button-positive  button-block " ng-click="getProductList()">Get Products</button>
+        <ion-list id="home-list1">
+            <ion-item id="home-list-item4" ng-repeat="item in list" ng-click="getProductDetail({{item.id}})" ui-sref="menu.producto">{{item.name}}</ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
