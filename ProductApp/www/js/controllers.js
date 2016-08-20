@@ -32,9 +32,6 @@ function ($scope, $stateParams) {
 			console.log(_id);
 		}
 
-
-	
-
 		var data = {
 			"name": "Galaxy Tab",
 	        "type": "smartphone",
@@ -62,14 +59,5 @@ function ($scope, $stateParams, productService) {
 	        	$scope.detail = data;
 	        	console.log($scope.detail);
 	});
-
-
-	$scope.productDelete = function(){
-			var _dato = localStorage.getItem('id');
-			console.log(_dato);	
-			console.log({id:_dato});				
-			productService.item_delete.delete({id:_dato});
-		}
-
 
 }])
