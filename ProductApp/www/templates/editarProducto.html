@@ -1,23 +1,26 @@
 <ion-view title="Editar producto" id="page9">
     <ion-content padding="true" class="has-header">
         <form id="editarProducto-form5" class="list ">
+            <label class="item item-input " id="editarProducto-name">
+                <span class="input-label" >Producto : {{detail.name}} </span>
+            </label>
             <label class="item item-input " id="editarProducto-input13">
-                <span class="input-label">Nombre</span>
-                <input type="text" placeholder="">
+                <span class="input-label">Nombre </span>
+                <input type="text" ng-model="inputName" placeholder="{{detail.name}}">
             </label>
             <label class="item item-input " id="editarProducto-input14">
-                <span class="input-label">Tipo</span>
-                <input type="text" placeholder="">
+                <span class="input-label">Tipo </span>
+                <input type="text" ng-model="inputType" placeholder="{{detail.type}}">
             </label>
             <label class="item item-input " id="editarProducto-input15">
-                <span class="input-label">Cantidad</span>
-                <input type="number" placeholder="">
+                <span class="input-label">Cantidad </span>
+                <input type="number" ng-model="inputQuantity"  placeholder="{{detail.quantity}}">
             </label>
             <label class="item item-input " id="editarProducto-input16">
-                <span class="input-label">Precio</span>
-                <input type="number" placeholder="">
+                <span class="input-label">Precio </span>
+                <input type="number" ng-model="inputPrice" placeholder="{{detail.price}}">
             </label>
         </form>
-        <a ui-sref="menu.producto" id="editarProducto-button14" class=" button button-positive  button-block ">Cambiar</a>
+        <a ui-sref="menu.producto" id="editarProducto-button14" class=" button button-positive  button-block " ng-click="updateProducto(inputName, inputType, inputQuantity, inputPrice, '{{detail.name}}')">Cambiar</a>
     </ion-content>
 </ion-view>

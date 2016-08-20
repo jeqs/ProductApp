@@ -97,7 +97,7 @@ angular.module('app.routes', [])
   })
 
   .state('menu.editarProducto', {
-    url: '/page9',
+    url: '/page9/:id',
     views: {
       'side-menu21': {
         templateUrl: 'templates/editarProducto.html',
