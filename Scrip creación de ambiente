@@ -4,4 +4,3 @@ $ npm install bower --save
 $ bower install ngCordova
 $ bower install angular-resource --save
 $ ionic prepare
-$ ionic serve

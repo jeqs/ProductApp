@@ -3,7 +3,7 @@
     <h1>Actualización</h1>
     	<button id="rest-button1" class=" button button-positive  button-block " ng-click="getProductList()">Get Products</button>
         <ion-list id="home-list1">
-            <ion-item id="home-list-item4" ng-repeat="item in list" ng-click="getProductDetail({{item.id}})" ui-sref="menu.producto">{{item.name}}</ion-item>
+            <ion-item id="home-list-item4" ng-repeat="item in list" href="#/side-menu21/page8/{{ item.id }}">{{item.name}}</ion-item>
         </ion-list>
     </ion-content>
 </ion-view>
