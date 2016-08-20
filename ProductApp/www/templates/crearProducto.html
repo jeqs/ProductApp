@@ -2,23 +2,22 @@
     <ion-content padding="true" class="has-header">
         <form id="crearProducto-form6" class="list ">
             <label class="item item-input " id="crearProducto-input17">
-                <span class="input-label">Nombre</span>
-                <input type="text" placeholder="">
+                <span class="input-label" >Nombre</span>
+                <input type="text" placeholder="" ng-model="name">
             </label>
             <label class="item item-input " id="crearProducto-input18">
                 <span class="input-label">Tipo</span>
-                <input type="text" placeholder="">
+                <input type="text" placeholder="" ng-model="type">
             </label>
             <label class="item item-input " id="crearProducto-input19">
                 <span class="input-label">Cantidad</span>
-                <input type="number" placeholder="">
+                <input type="number" placeholder="" ng-model="quantity">
             </label>
             <label class="item item-input " id="crearProducto-input20">
                 <span class="input-label">Precio</span>
-                <input type="number" placeholder="">
+                <input type="number" placeholder="" ng-model="price">
             </label>
         </form>
-        <a ui-sref="menu.home" id="crearProducto-button16" class=" button button-positive  button-block ">Crear</a>
-        <a id="crearProducto-button16" class=" button button-positive  button-block " ng-click="productCreate()">Crear</a>
+        <a id="crearProducto-button16" class=" button button-positive  button-block " ng-click="productCreate(name, type, quantity, price)">Crear</a>
     </ion-content>
 </ion-view>

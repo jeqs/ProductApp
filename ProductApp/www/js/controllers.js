@@ -107,10 +107,23 @@ function ($scope, $stateParams) {
 
 }])
    
-.controller('crearProductoCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+.controller('crearProductoCtrl', ['$scope', '$stateParams', 'productService',
+	function ($scope, $stateParams, productService) {
+    
+    $scope.productCreate = function(_name, _type, _quantity, _price){
 
+    	console.log($stateParams.name);
+
+		var data = {
+            "name": _name,
+            "type": _type,
+            "quantity": _quantity,
+            "price": _price
+        };
+
+        productService.item_create.save(data, function(){
+        	console.log(data);	
+        });
+    }
 
 }])
