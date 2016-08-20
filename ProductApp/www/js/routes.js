@@ -24,7 +24,7 @@ angular.module('app.routes', [])
     url: '/page2',
     views: {
       'side-menu21': {
-        templateUrl: 'templates/home.html',
+        templateUrl: 'templates/home.html', //Lista de productos
         controller: 'homeCtrl'
       }
     }
@@ -87,10 +87,10 @@ angular.module('app.routes', [])
   })
 
   .state('menu.producto', {
-    url: '/page8',
+    url: '/page8/:id',
     views: {
       'side-menu21': {
-        templateUrl: 'templates/producto.html',
+        templateUrl: 'templates/producto.html',  // Detalle del producto
         controller: 'productoCtrl'
       }
     }
