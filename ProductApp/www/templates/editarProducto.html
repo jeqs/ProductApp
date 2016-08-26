@@ -2,7 +2,7 @@
     <ion-content padding="true" class="has-header">
         <form id="editarProducto-form5" class="list ">
             <label class="item item-input " id="editarProducto-name">
-                <span class="input-label" >Producto : {{detail.name}} </span>
+                <span class="input-label" >Editar Producto : {{detail.name}} </span>
             </label>
             <label class="item item-input " id="editarProducto-input13">
                 <span class="input-label">Nombre </span>
@@ -21,6 +21,6 @@
                 <input type="number" ng-model="inputPrice" placeholder="{{detail.price}}">
             </label>
         </form>
-        <a ui-sref="menu.producto" id="editarProducto-button14" class=" button button-positive  button-block " ng-click="updateProducto(inputName, inputType, inputQuantity, inputPrice, '{{detail.name}}')">Cambiar</a>
+        <a id="editarProducto-button14" class=" button button-positive  button-block " ng-click="productUpdate(inputName, inputType, inputQuantity, inputPrice, '{{detail.name}}')">Cambiar</a>
     </ion-content>
 </ion-view>

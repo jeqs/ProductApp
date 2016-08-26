@@ -3,13 +3,13 @@
         <form id="cambiarContraseA-form3" class="list ">
             <label class="item item-input " id="cambiarContraseA-input6">
                 <span class="input-label">Email</span>
-                <input type="password" placeholder="">
+                <input type="email" ng-model="email" placeholder="">
             </label>
             <label class="item item-input " id="cambiarContraseA-input7">
                 <span class="input-label">Nueva contraseña</span>
-                <input type="text" placeholder="">
+                <input type="password" ng-model="password" placeholder="">
             </label>
         </form>
-        <button id="cambiarContraseA-button9" class=" button button-positive  button-block ">Cambiar</button>
+        <button id="cambiarContraseA-button9" class=" button button-positive  button-block " ng-click="userForgotPassword(email, password)">Cambiar</button>
     </ion-content>
 </ion-view>

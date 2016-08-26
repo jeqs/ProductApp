@@ -1,22 +1,5 @@
 angular.module('app.controllers', ['app.services', 'ngCordova'])
-  
-.controller('opcionesCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-
-}])
-   
-  
-.controller('cuentaCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-
-}])
-    
+     
 .controller('homeCtrl', ['$scope', '$stateParams', 'productService', 
 	function ($scope, $stateParams, productService) {
 
@@ -28,150 +11,187 @@ function ($scope, $stateParams) {
 	
 		$scope.getProductDetail = function(_id){
 			$stateParams.id = _id;
-			console.log(_id);
 		}
-	}
+
+	} // fin function
 ])
 
 .controller('productoCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs',
 	function ($scope, $stateParams, productService, $cordovaDialogs) {
 
 		var _id = $stateParams.id; 
-		console.log(_id);
-
 		productService.item_detail.get({id: _id}, function(data){
-		        	$scope.detail = data;
-		        	console.log($scope.detail);
+			$scope.detail = data;
+			console.log("Producto cargado id: " + _id);
 		});
 
 		$scope.productDelete = function(){
-			console.log(_id);
+			console.log("Producto a eliminar id: " + _id);
 
 			// Dialog Confirm
 			$cordovaDialogs.confirm('Desea eliminar el producto: ', 'Continuar', ['Si', 'No'] ).then(
 				function(buttonIndex) {
-		      		var btnIndex = buttonIndex; // no button = 0, 'OK' = 1, 'Cancel' = 2
-		      		console.log(btnIndex);
-
-		      		if (buttonIndex == 1) {
+		      		if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
 		      			productService.item_delete.delete({id:_id});
+    					$cordovaDialogs.alert('Producto eliminado', 'Alert', 'Ok').then();
 		      		}
-    			}	
+    			}
+		    ); // fin dialog
 
+		} // fin productDelete
+	} // fin function
+])
+
+.controller('editarProductoCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs',
+	function ($scope, $stateParams, productService, $cordovaDialogs) {
+
+		var _id = $stateParams.id;
+		productService.item_detail.get({id: _id}, function(data){
+			$scope.detail = data;
+			console.log("Producto a editar id: " + _id);
+		});
+
+	    $scope.productUpdate = function(_inputName, _inputType, _inputQuantity,  _inputPrice, _oldName)
+	    {
+			//console.log("Nombre actual: " + _oldName);
+
+			var data = { 
+				"id": _id,
+			  	"name": _inputName,
+		      	"type": _inputType,
+		       	"quantity": _inputQuantity,
+		       	"price": _inputPrice
+			};
+			
+			// Dialog Confirm
+			$cordovaDialogs.confirm('Confirma el cambio de producto Id : ' + _id , 'Continuar', ['Si', 'No'] ).then(
+				function(buttonIndex) { 
+	      			if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
+	      				productService.item_update.update({id: _id}, function(data){
+	    					$scope.detail = data;
+	    					$cordovaDialogs.alert('Producto actualizado', 'Alert', 'Ok').then();
+						});
+	      			} // fin if buttonIndex
+				} 
+		    ); // fin dialog
+
+	  	}; // fin productUpdate
+
+	} // fin function
+])
+   
+.controller('crearProductoCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs',
+	function ($scope, $stateParams, productService, $cordovaDialogs) {
+
+	    $scope.productCreate = function(_name, _type, _quantity, _price){
+
+			var data = {
+	            "name": _name,
+	            "type": _type,
+	            "quantity": _quantity,
+	            "price": _price
+	        };
+
+	        // Dialog Confirm
+			$cordovaDialogs.confirm('Confirma la creación del producto: ', 'Continuar', ['Si', 'No'] ).then(
+				function(buttonIndex) {
+		      		if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
+		      			productService.item_create.save(data, function(){
+	        				$cordovaDialogs.alert('Producto creado', 'Alert', 'Ok').then();
+	        			});
+		      		}
+    			}
+		    ); // fin dialog
+	    }
+	}
+])
+
+.controller('registrarCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
+	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
+
+		$scope.userCreate = function(_email, _firstname, _lastname, _phone, _password) {
+
+			var data = {
+				"email": _email,
+				"firstname": _firstname,
+				"lastname": _lastname,
+				"phone": _phone,
+				"password": _password
+			};
+
+			// Dialog Confirm
+			$cordovaDialogs.confirm('Confirma la creación del usuario: ', 'Continuar', ['Si', 'No'] ).then(
+				function(buttonIndex) {
+		      		if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
+		      			productService.user_create.save(data, function(){
+							$cordovaDialogs.alert('Bienvenido', 'Alert', 'Ok').then();
+							$state.go('menu.home');
+						});
+		      		}
+    			}
 		    ); // fin dialog
 		}
-}])
+	}
+])
 
-.controller('opcionesCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+.controller('ingresarCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
+	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
 
+		$scope.userLogin = function(_email, _password) {
 
-}])
-   
+			var data = {
+				"email": _email,
+				"password": _password
+			};
 
-.controller('cuentaCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+			var _id = 1;
 
+			productService.user_login.login({id: _id}, function(){
+				$cordovaDialogs.alert('Bienvenido', 'Alert', 'Ok').then();
+				$state.go('menu.home');
+			});
 
-}])
-   
-.controller('editarPerfilCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-
-}])
+		}
+	}
+])
       
-.controller('ingresarCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller('cambiarContraseACtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
+	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
+
+		$scope.userForgotPassword = function(_email, _password) {
+
+			var data = {
+				"email": _email,
+				"password": _password
+			};
+
+			var _id = 1;
+
+			productService.user_forgotpassword.forgot({id: _id}, function(){
+				$cordovaDialogs.alert('Confirmar cambio contraseña', 'Alert', 'Ok').then();
+				$state.go('menu.home');
+			});
+
+		}
+	}
+])
+   
+.controller('cuentaCtrl', ['$scope', '$stateParams', 
 function ($scope, $stateParams) {
 
+}])
+
+.controller('opcionesCtrl', ['$scope', '$stateParams', 
+function ($scope, $stateParams) {
 
 }])
    
-.controller('cambiarContraseACtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller('cuentaCtrl', ['$scope', '$stateParams', 
 function ($scope, $stateParams) {
-
 
 }])
    
-.controller('registrarCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller('editarPerfilCtrl', ['$scope', '$stateParams', 
 function ($scope, $stateParams) {
-
-
-}])
-     
-.controller('editarProductoCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs',
-function ($scope, $stateParams, productService, $cordovaDialogs) {
-
-	var _id = $stateParams.id;
-	console.log(_id);
-
-	productService.item_detail.get({id: _id}, function(data){
-	        	$scope.detail = data;
-	        	console.log($scope.detail);
-	});
-
-    $scope.updateProducto = function(_inputName, _inputType, _inputQuantity,  _inputPrice, _oldName){
-
-    		console.log(_oldName);
-	
-			var _id2 = $stateParams.id;
-
-			var dataUpdate={ 
-    			"id": _id2,
-			  "name": _inputName,
-	          "type": _inputType,
-	           "quantity": _inputQuantity,
-	           "price": _inputPrice
-    		};
-    		
-    		// Dialog Confirm
-			$cordovaDialogs.confirm('Confirma el cambio de producto Id: ' + _id2.toString() , 'Continuar', ['Si', 'No'] ).then(
-				function(buttonIndex) {
-		      		var btnIndex = buttonIndex; // no button = 0, 'OK' = 1, 'Cancel' = 2
-		      		
-		      		if (buttonIndex == 1) {
-		      			console.log("si");	
-		      			 productService.edit.update({id: _id2}, function(dataUpdate){
-	        				$scope.detail = dataUpdate;
-						});
-
-		      			console.log(dataUpdate);
-		      		}
-    			}	
-
-		    ); // fin dialog
-
-  };
-
-}])
-   
-.controller('crearProductoCtrl', ['$scope', '$stateParams', 'productService',
-	function ($scope, $stateParams, productService) {
-
-    $scope.productCreate = function(_name, _type, _quantity, _price){
-
-		var data = {
-            "name": _name,
-            "type": _type,
-            "quantity": _quantity,
-            "price": _price
-        };
-
-        productService.item_create.save(data, function(){
-        	console.log(data);	
-        });
-    }
 
 }])

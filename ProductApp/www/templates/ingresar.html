@@ -4,15 +4,15 @@
             <ion-list id="ingresar-list3">
                 <label class="item item-input " id="ingresar-input1">
                     <span class="input-label">Correo</span>
-                    <input type="text" placeholder="">
+                    <input type="email" ng-model="email" placeholder="">
                 </label>
                 <label class="item item-input " id="ingresar-input2">
                     <span class="input-label">Contraseña</span>
-                    <input type="password" placeholder="">
+                    <input type="password" ng-model="password" placeholder="">
                 </label>
             </ion-list>
             <div class="spacer" style="height: 40px;"></div>
-            <a ui-sref="menu.home" id="ingresar-button5" class=" button button-stable  button-block ">Ingresar</a>
+            <a id="ingresar-button5" class=" button button-stable  button-block " ng-click="userLogin(email, password)">Ingresar</a>
         </form>
         <a ui-sref="menu.cambiarContraseA" id="ingresar-button8" class=" button button-positive  button-block button-clear ">Cambiar contraseña</a>
     </ion-content>

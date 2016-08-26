@@ -8,9 +8,7 @@ angular.module('app.routes', [])
   // Each state's controller can be found in controllers.js
   $stateProvider
     
-  
-
-      .state('menu.opciones', {
+  .state('menu.opciones', {
     url: '/page1',
     views: {
       'side-menu21': {
@@ -116,8 +114,6 @@ angular.module('app.routes', [])
     }
   })
 
-$urlRouterProvider.otherwise('/side-menu21/page2')
-
-  
+$urlRouterProvider.otherwise('/side-menu21/page1')
 
 });
