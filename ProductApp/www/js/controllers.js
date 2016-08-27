@@ -213,8 +213,8 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 	} // fin function
 ])
    
-.controller('cuentaCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', 
-	function ($scope, $stateParams, productService, $cordovaDialogs) {
+.controller('cuentaCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
+	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
 
         console.log("Inicio Ctrl Cuenta ");
         
@@ -253,7 +253,7 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 		      		if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
 		      			$cordovaDialogs.alert('Sesion cerrada', 'Alert', 'Ok').then();
                         localStorage.clear();
-    					$state.go('opciones');
+                        $state.go('opciones');
 		      		}
     			}
 		    ); // fin dialog
