@@ -35,7 +35,7 @@ angular.module('app.routes', [])
   })
 
   .state('menu.editarPerfil', {
-    url: '/page13/:id',
+    url: '/page13/:email',
     views: {
       'side-menu21': {
         templateUrl: 'templates/editarPerfil.html',

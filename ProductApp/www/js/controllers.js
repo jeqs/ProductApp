@@ -181,30 +181,26 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 .controller('editarPerfilCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs',
 	function ($scope, $stateParams, productService, $cordovaDialogs) {
 
-		
 		var _email = $stateParams.email;
 		
-        
 		productService.user_detail.get({email: _email}, function(data){
 			$scope.detail = data;
 			console.log("Usuario a editar email: " + _email);
 		});
 
-	    $scope.userUpdate = function(_firstname, _lastname, _phone, _password)
+	    $scope.userUpdate = function(_firstname, _lastname, _phone)
 	    {
-
 			var data = { 
 				"firstname": _firstname,
 		      	"lastname": _lastname,
-		       	"phone": _phone,
-		       	"password": _password
+		       	"phone": _phone
 			};
 			
 			// Dialog Confirm
 			$cordovaDialogs.confirm('Confirma el cambio del usuario: ' + _email , 'Continuar', ['Si', 'No'] ).then(
 				function(buttonIndex) { 
 	      			if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
-	      				productService.user_edit.update({email: _email}, function(data){
+	      				productService.user_edit.update({email: _email}, function(data){             //productService.user_edit.update({email: _email}, function(data){
 	    					$scope.detail = data;
 	    					$cordovaDialogs.alert('Usuario actualizado', 'Alert', 'Ok').then();
 						});
