@@ -16,8 +16,8 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 	} // fin function
 ])
 
-.controller('productoCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs',
-	function ($scope, $stateParams, productService, $cordovaDialogs) {
+.controller('productoCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
+	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
 
 		var _id = $stateParams.id; 
 		productService.item_detail.get({id: _id}, function(data){
@@ -34,6 +34,7 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 		      		if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
 		      			productService.item_delete.delete({id:_id});
     					$cordovaDialogs.alert('Producto eliminado', 'Alert', 'Ok').then();
+    					$state.go('menu.home');
 		      		}
     			}
 		    ); // fin dialog
@@ -67,8 +68,8 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 	      			if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
 	      				productService.item_update.update({id: _id}, data, function(data){
 	    					$scope.detail = data;
-	    					$state.go('menu.editarProducto');
 	    					$cordovaDialogs.alert('Producto actualizado', 'Alert', 'Ok').then();
+	    					$state.go('menu.editarProducto');
 						});
 	      			} // fin if buttonIndex
 				}
@@ -79,8 +80,8 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 	} // fin function
 ])
    
-.controller('crearProductoCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs',
-	function ($scope, $stateParams, productService, $cordovaDialogs) {
+.controller('crearProductoCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
+	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
 
 	    $scope.productCreate = function(_name, _type, _quantity, _price){
 
@@ -97,6 +98,7 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 		      		if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
 		      			productService.item_create.save(data, function(){
 	        				$cordovaDialogs.alert('Producto creado', 'Alert', 'Ok').then();
+	        				$state.go('menu.home');
 	        			});
 		      		}
     			}
