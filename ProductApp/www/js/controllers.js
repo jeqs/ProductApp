@@ -168,6 +168,7 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 				{
 					$cordovaDialogs.alert('Nombre de usuario o contraseña incorrecta', 'Alert', 'Ok').then();
 					$state.go('ingresar');
+					localStorage.clear();
 				}
 			});
 
@@ -181,11 +182,11 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 		$scope.userForgotPassword = function(_email, _password) {
 
 			var data = {
-				"email": _email,
 				"password": _password
 			};
 
-			productService.user_forgotpassword.forgot({email: _email}, function(){
+			productService.user_forgotpassword.forgot({email: _email}, data, function(data){
+				console.log("data: " + data);
 				$cordovaDialogs.alert('Confirmar cambio contraseña', 'Alert', 'Ok').then();
 				$state.go('menu.home');
 			});

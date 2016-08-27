@@ -45,7 +45,7 @@ angular.module('app.services', ['ngResource'])
   this.user_forgotpassword = $resource('http://138.68.0.83:7070/api/v1/user/forgot-password/:email', {email: '@email'}, 
     {
       forgot: {
-          method: 'PUT'
+          method: 'POST'
         }
     });
 
