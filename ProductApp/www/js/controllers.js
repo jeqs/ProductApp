@@ -176,22 +176,89 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 	}
 ])
    
-.controller('cuentaCtrl', ['$scope', '$stateParams', 
-function ($scope, $stateParams) {
+.controller('editarPerfilCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs',
+	function ($scope, $stateParams, productService, $cordovaDialogs) {
 
-}])
+		var _id = $stateParams.id;
+		productService.item_detail.get({id: _id}, function(data){
+			$scope.detail = data;
+			console.log("Usuario a editar id: " + _id);
+		});
+
+	    $scope.userUpdate = function(_firstname, _lastname, _phone, _password)
+	    {
+
+			var data = { 
+				"id": _id,
+			  	"firstname": _firstname,
+		      	"lastname": _lastname,
+		       	"phone": _phone,
+		       	"password": _password
+			};
+			
+			// Dialog Confirm
+			$cordovaDialogs.confirm('Confirma el cambio del usuario Id : ' + _id , 'Continuar', ['Si', 'No'] ).then(
+				function(buttonIndex) { 
+	      			if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
+	      				productService.user_edit.update({id: _id}, function(data){
+	    					$scope.detail = data;
+	    					$cordovaDialogs.alert('Usuario actualizado', 'Alert', 'Ok').then();
+						});
+	      			} // fin if buttonIndex
+				} 
+		    ); // fin dialog
+
+	  	}; // fin productUpdate
+
+	} // fin function
+])
+   
+.controller('cuentaCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
+	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
+
+		var _id = 1; //$stateParams.id; 
+		productService.user_detail.get({id: _id}, function(data){
+			$scope.detail = data;
+			console.log("Usuario cargado id: " + _id);
+		});
+
+		$scope.userDelete = function(){
+			console.log("Usuario a eliminar id: " + _id);
+
+			// Dialog Confirm
+			$cordovaDialogs.confirm('Desea eliminar el usuario: ', 'Continuar', ['Si', 'No'] ).then(
+				function(buttonIndex) {
+		      		if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
+		      			productService.user_delete.delete({id:_id});
+    					$cordovaDialogs.alert('Usuario eliminado', 'Alert', 'Ok').then();
+    					$state.go('menu.opciones');
+		      		}
+    			}
+		    ); // fin dialog
+
+		} // fin userDelete
+
+		$scope.userClose = function(){
+			console.log("Usuario a cerrar sesion id: " + _id);
+
+			// Dialog Confirm
+			$cordovaDialogs.confirm('Confirma cerrar la sesion : ', 'Continuar', ['Si', 'No'] ).then(
+				function(buttonIndex) {
+		      		if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
+		      			productService.user_delete.delete({id:_id});
+    					$cordovaDialogs.alert('Sesion cerrada', 'Alert', 'Ok').then();
+    					$state.go('menu.opciones');
+		      		}
+    			}
+		    ); // fin dialog
+
+		} // fin cerrar sesion
+
+
+	} // fin function
+])
 
 .controller('opcionesCtrl', ['$scope', '$stateParams', 
-function ($scope, $stateParams) {
-
-}])
-   
-.controller('cuentaCtrl', ['$scope', '$stateParams', 
-function ($scope, $stateParams) {
-
-}])
-   
-.controller('editarPerfilCtrl', ['$scope', '$stateParams', 
 function ($scope, $stateParams) {
 
 }])
