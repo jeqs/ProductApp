@@ -143,12 +143,11 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 				"email": _email,
 				"password": _password
 			};
-
-			var _id = 1;
-
-			productService.user_login.login({id: _id}, function(){
-				localStorage.setItem('Id', _id);
-				console.log("localStorage :" + _id);
+            console.log(data);
+			productService.user_login.login(data, function(data){
+                console.log(data);
+				localStorage.setItem('Email', _email);
+				console.log("localStorage :" + _email);
 				$cordovaDialogs.alert('Bienvenido', 'Alert', 'Ok').then();
 				$state.go('menu.home');
 			});
@@ -167,9 +166,9 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 				"password": _password
 			};
 
-			var _id = 1;
+			
 
-			productService.user_forgotpassword.forgot({id: _id}, function(){
+			productService.user_forgotpassword.forgot({email: _email}, function(){
 				$cordovaDialogs.alert('Confirmar cambio contraseña', 'Alert', 'Ok').then();
 				$state.go('menu.home');
 			});
@@ -182,30 +181,29 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 	function ($scope, $stateParams, productService, $cordovaDialogs) {
 
 		
-		var _id = $stateParams.id;
+		var _email = $stateParams.email;
 		
 
-		productService.user_detail.get({id: _id}, function(data){
+		productService.user_detail.get({email: _email}, function(data){
 			$scope.detail = data;
-			console.log("Usuario a editar id: " + _id);
+			console.log("Usuario a editar email: " + _email);
 		});
 
 	    $scope.userUpdate = function(_firstname, _lastname, _phone, _password)
 	    {
 
 			var data = { 
-				"id": _id,
-			  	"firstname": _firstname,
+				"firstname": _firstname,
 		      	"lastname": _lastname,
 		       	"phone": _phone,
 		       	"password": _password
 			};
 			
 			// Dialog Confirm
-			$cordovaDialogs.confirm('Confirma el cambio del usuario Id : ' + _id , 'Continuar', ['Si', 'No'] ).then(
+			$cordovaDialogs.confirm('Confirma el cambio del usuario: ' + _email , 'Continuar', ['Si', 'No'] ).then(
 				function(buttonIndex) { 
 	      			if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
-	      				productService.user_edit.update({id: _id}, function(data){
+	      				productService.user_edit.update({email: _email}, function(data){
 	    					$scope.detail = data;
 	    					$cordovaDialogs.alert('Usuario actualizado', 'Alert', 'Ok').then();
 						});
@@ -221,22 +219,24 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 .controller('cuentaCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
 	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
 
-		var _id = localStorage.getItem('Id'); //$stateParams.id; 
-		console.log("Inicio Cuenta id: " + _id);
+        console.log("Inicio Ctrl Cuenta ");
+        
+		var _email = localStorage.getItem('Email'); //$stateParams.id; 
+		console.log("Inicio Cuenta id: " + _email);
 		
-		productService.user_detail.get({id: _id}, function(data){
+		productService.user_detail.get({email: _email}, function(data){
 			$scope.detail = data;
-			console.log("Usuario cargado id: " + _id);
+			console.log("Usuario cargado email: " + _email);
 		});
 
 		$scope.userDelete = function(){
-			console.log("Usuario a eliminar id: " + _id);
+			console.log("Usuario a eliminar email: " + _email);
 
 			// Dialog Confirm
 			$cordovaDialogs.confirm('Desea eliminar el usuario: ', 'Continuar', ['Si', 'No'] ).then(
 				function(buttonIndex) {
 		      		if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
-		      			productService.user_delete.delete({id:_id});
+		      			productService.user_delete.delete({email:_email});
     					$cordovaDialogs.alert('Usuario eliminado', 'Alert', 'Ok').then();
     					$state.go('opciones');
 		      		}
@@ -246,13 +246,13 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 		} // fin userDelete
 
 		$scope.userClose = function(){
-			console.log("Usuario a cerrar sesion id: " + _id);
+			console.log("Usuario a cerrar sesion id: " + _email);
 
 			// Dialog Confirm
 			$cordovaDialogs.confirm('Confirma cerrar la sesion : ', 'Continuar', ['Si', 'No'] ).then(
 				function(buttonIndex) {
 		      		if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
-		      			productService.user_delete.delete({id:_id});
+		      			productService.user_delete.delete({email:_email});
     					$cordovaDialogs.alert('Sesion cerrada', 'Alert', 'Ok').then();
     					$state.go('opciones');
 		      		}
