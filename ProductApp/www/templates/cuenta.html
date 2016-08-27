@@ -1,5 +1,7 @@
 <ion-view title="Cuenta" id="page3">
     <ion-content padding="true" class="has-header">
+        <ion-refresher pulling-text="Fresqueate..." on-refresh="doRefresh()">
+        </ion-refresher>
         <ion-list id="cuenta-list2">
             <ion-item id="cuenta-list-item10">Email: {{detail.email}}</ion-item>
             <ion-item id="cuenta-list-item11">Nombre: {{detail.firstname}}</ion-item>

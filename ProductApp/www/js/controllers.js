@@ -19,7 +19,16 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 .controller('productoCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
 	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
 
-		var _id = $stateParams.id; 
+		var _id = $stateParams.id;
+
+		$scope.doRefresh = function() {
+        	_id = $stateParams.id; 
+		    productService.item_detail.get({id: _id}, function(data){
+				$scope.detail = data;
+				console.log("Producto cargado id: " + _id);
+		    });
+        }
+
 		productService.item_detail.get({id: _id}, function(data){
 			$scope.detail = data;
 			console.log("Producto cargado id: " + _id);
@@ -176,8 +185,6 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 				"password": _password
 			};
 
-			
-
 			productService.user_forgotpassword.forgot({email: _email}, function(){
 				$cordovaDialogs.alert('Confirmar cambio contraseña', 'Alert', 'Ok').then();
 				$state.go('menu.home');
@@ -231,6 +238,16 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
         
 		var _email = localStorage.getItem('Email'); //$stateParams.id; 
 		console.log("Inicio Cuenta id: " + _email);
+
+		 $scope.doRefresh = function() {
+            _email = localStorage.getItem('Email'); //$stateParams.id; 
+            console.log(_email);
+            
+            productService.user_detail.get({email: _email}, function(data){
+				$scope.detail = data;
+			 	console.log("Usuario cargado email: " + _email);
+			});
+        };
 		
 		productService.user_detail.get({email: _email}, function(data){
 			$scope.detail = data;

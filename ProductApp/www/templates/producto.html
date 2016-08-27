@@ -1,5 +1,7 @@
 <ion-view title="Producto" id="page8">
     <ion-content padding="true" class="has-header">
+        <ion-refresher pulling-text="Fresqueate..." on-refresh="doRefresh()">
+        </ion-refresher>
         <ion-list id="producto-list6">
             <ion-item id="producto-list-item7">Nombre: {{detail.name}} </ion-item>
             <ion-item id="producto-list-item8">Tipo: {{detail.type}} </ion-item>
