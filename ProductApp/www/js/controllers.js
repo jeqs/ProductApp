@@ -42,8 +42,8 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 	} // fin function
 ])
 
-.controller('editarProductoCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs',
-	function ($scope, $stateParams, productService, $cordovaDialogs) {
+.controller('editarProductoCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
+	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
 
 		var _id = $stateParams.id;
 		productService.item_detail.get({id: _id}, function(data){
@@ -51,12 +51,10 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 			console.log("Producto a editar id: " + _id);
 		});
 
-	    $scope.productUpdate = function(_inputName, _inputType, _inputQuantity,  _inputPrice, _oldName)
+	    $scope.productUpdate = function(_inputName, _inputType, _inputQuantity,  _inputPrice)
 	    {
-			//console.log("Nombre actual: " + _oldName);
 
 			var data = { 
-				"id": _id,
 			  	"name": _inputName,
 		      	"type": _inputType,
 		       	"quantity": _inputQuantity,
@@ -67,12 +65,13 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 			$cordovaDialogs.confirm('Confirma el cambio de producto Id : ' + _id , 'Continuar', ['Si', 'No'] ).then(
 				function(buttonIndex) { 
 	      			if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
-	      				productService.item_update.update({id: _id}, function(data){
+	      				productService.item_update.update({id: _id}, data, function(data){
 	    					$scope.detail = data;
+	    					$state.go('menu.editarProducto');
 	    					$cordovaDialogs.alert('Producto actualizado', 'Alert', 'Ok').then();
 						});
 	      			} // fin if buttonIndex
-				} 
+				}
 		    ); // fin dialog
 
 	  	}; // fin productUpdate
