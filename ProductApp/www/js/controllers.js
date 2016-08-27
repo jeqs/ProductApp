@@ -178,8 +178,8 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 	}
 ])
    
-.controller('editarPerfilCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs',
-	function ($scope, $stateParams, productService, $cordovaDialogs) {
+.controller('editarPerfilCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
+	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
 
 		var _email = $stateParams.email;
 		
@@ -200,9 +200,10 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 			$cordovaDialogs.confirm('Confirma el cambio del usuario: ' + _email , 'Continuar', ['Si', 'No'] ).then(
 				function(buttonIndex) { 
 	      			if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
-	      				productService.user_edit.update({email: _email}, function(data){             //productService.user_edit.update({email: _email}, function(data){
+	      				productService.user_edit.update({email: _email}, data, function(data){             //productService.user_edit.update({email: _email}, function(data){
 	    					$scope.detail = data;
 	    					$cordovaDialogs.alert('Usuario actualizado', 'Alert', 'Ok').then();
+	    					$state.go('menu.cuenta');
 						});
 	      			} // fin if buttonIndex
 				} 
@@ -213,8 +214,8 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 	} // fin function
 ])
    
-.controller('cuentaCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
-	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
+.controller('cuentaCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', 
+	function ($scope, $stateParams, productService, $cordovaDialogs) {
 
         console.log("Inicio Ctrl Cuenta ");
         
