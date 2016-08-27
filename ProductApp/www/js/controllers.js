@@ -143,13 +143,21 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 				"email": _email,
 				"password": _password
 			};
-            console.log(data);
-			productService.user_login.login(data, function(data){
-                console.log(data);
-				localStorage.setItem('Email', _email);
-				console.log("localStorage :" + _email);
-				$cordovaDialogs.alert('Bienvenido', 'Alert', 'Ok').then();
-				$state.go('menu.home');
+
+			productService.user_login.login(data, function(data) {
+	            console.log("Data Id :" + data.id);
+
+	            if (data.id != null) {
+					localStorage.setItem('Email', _email);
+					console.log("localStorage :" + _email);
+					$cordovaDialogs.alert('Bienvenido', 'Alert', 'Ok').then();
+					$state.go('menu.home');
+				}
+				else
+				{
+					$cordovaDialogs.alert('Nombre de usuario o contraseña incorrecta', 'Alert', 'Ok').then();
+					$state.go('ingresar');
+				}
 			});
 
 		}
@@ -180,8 +188,9 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 .controller('editarPerfilCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
 	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
 
+		console.log("Inicio Editar Perfil Ctrl");
+
 		var _email = $stateParams.email;
-		
 		productService.user_detail.get({email: _email}, function(data){
 			$scope.detail = data;
 			console.log("Usuario a editar email: " + _email);
@@ -216,7 +225,7 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 .controller('cuentaCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
 	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
 
-        console.log("Inicio Ctrl Cuenta ");
+        console.log("Inicio Ctrl Cuenta");
         
 		var _email = localStorage.getItem('Email'); //$stateParams.id; 
 		console.log("Inicio Cuenta id: " + _email);
