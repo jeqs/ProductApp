@@ -147,6 +147,8 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 			var _id = 1;
 
 			productService.user_login.login({id: _id}, function(){
+				localStorage.setItem('Id', _id);
+				console.log("localStorage :" + _id);
 				$cordovaDialogs.alert('Bienvenido', 'Alert', 'Ok').then();
 				$state.go('menu.home');
 			});
@@ -179,8 +181,11 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 .controller('editarPerfilCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs',
 	function ($scope, $stateParams, productService, $cordovaDialogs) {
 
+		
 		var _id = $stateParams.id;
-		productService.item_detail.get({id: _id}, function(data){
+		
+
+		productService.user_detail.get({id: _id}, function(data){
 			$scope.detail = data;
 			console.log("Usuario a editar id: " + _id);
 		});
@@ -216,7 +221,9 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 .controller('cuentaCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
 	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
 
-		var _id = 1; //$stateParams.id; 
+		var _id = localStorage.getItem('Id'); //$stateParams.id; 
+		console.log("Inicio Cuenta id: " + _id);
+		
 		productService.user_detail.get({id: _id}, function(data){
 			$scope.detail = data;
 			console.log("Usuario cargado id: " + _id);
@@ -231,7 +238,7 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 		      		if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
 		      			productService.user_delete.delete({id:_id});
     					$cordovaDialogs.alert('Usuario eliminado', 'Alert', 'Ok').then();
-    					$state.go('menu.opciones');
+    					$state.go('opciones');
 		      		}
     			}
 		    ); // fin dialog
@@ -247,7 +254,7 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 		      		if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
 		      			productService.user_delete.delete({id:_id});
     					$cordovaDialogs.alert('Sesion cerrada', 'Alert', 'Ok').then();
-    					$state.go('menu.opciones');
+    					$state.go('opciones');
 		      		}
     			}
 		    ); // fin dialog

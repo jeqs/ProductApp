@@ -8,14 +8,10 @@ angular.module('app.routes', [])
   // Each state's controller can be found in controllers.js
   $stateProvider
     
-  .state('menu.opciones', {
+  .state('opciones', {
     url: '/page1',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/opciones.html',
-        controller: 'opcionesCtrl'
-      }
-    }
+    templateUrl: 'templates/opciones.html',
+    controller: 'opcionesCtrl'
   })
 
   .state('menu.home', {
@@ -39,7 +35,7 @@ angular.module('app.routes', [])
   })
 
   .state('menu.editarPerfil', {
-    url: '/page13',
+    url: '/page13/:id',
     views: {
       'side-menu21': {
         templateUrl: 'templates/editarPerfil.html',
@@ -54,14 +50,10 @@ angular.module('app.routes', [])
     abstract:true
   })
 
-  .state('menu.ingresar', {
+  .state('ingresar', {
     url: '/page4',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/ingresar.html',
-        controller: 'ingresarCtrl'
-      }
-    }
+    templateUrl: 'templates/ingresar.html',
+    controller: 'ingresarCtrl'
   })
 
   .state('menu.cambiarContraseA', {
@@ -74,14 +66,10 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('menu.registrar', {
+  .state('registrar', {
     url: '/page7',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/registrar.html',
-        controller: 'registrarCtrl'
-      }
-    }
+    templateUrl: 'templates/registrar.html',
+    controller: 'registrarCtrl'
   })
 
   .state('menu.producto', {
@@ -114,6 +102,6 @@ angular.module('app.routes', [])
     }
   })
 
-$urlRouterProvider.otherwise('/side-menu21/page1')
+$urlRouterProvider.otherwise('/page1')
 
 });
