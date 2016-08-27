@@ -124,6 +124,7 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 				function(buttonIndex) {
 		      		if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
 		      			productService.user_create.save(data, function(){
+                            localStorage.setItem('Email', _email);
 							$cordovaDialogs.alert('Bienvenido', 'Alert', 'Ok').then();
 							$state.go('menu.home');
 						});
@@ -183,7 +184,7 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 		
 		var _email = $stateParams.email;
 		
-
+        
 		productService.user_detail.get({email: _email}, function(data){
 			$scope.detail = data;
 			console.log("Usuario a editar email: " + _email);
@@ -238,7 +239,9 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 		      		if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
 		      			productService.user_delete.delete({email:_email});
     					$cordovaDialogs.alert('Usuario eliminado', 'Alert', 'Ok').then();
-    					$state.go('opciones');
+    					localStorage.clear();
+                        $state.go('opciones');
+                        
 		      		}
     			}
 		    ); // fin dialog
@@ -252,8 +255,8 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 			$cordovaDialogs.confirm('Confirma cerrar la sesion : ', 'Continuar', ['Si', 'No'] ).then(
 				function(buttonIndex) {
 		      		if (buttonIndex == 1) { // no button = 0, 'OK' = 1, 'Cancel' = 2
-		      			productService.user_delete.delete({email:_email});
-    					$cordovaDialogs.alert('Sesion cerrada', 'Alert', 'Ok').then();
+		      			$cordovaDialogs.alert('Sesion cerrada', 'Alert', 'Ok').then();
+                        localStorage.clear();
     					$state.go('opciones');
 		      		}
     			}
