@@ -1,12 +1,44 @@
 angular.module('app.controllers', ['app.services', 'ngCordova'])
      
-.controller('homeCtrl', ['$scope', '$stateParams', 'productService', 
-	function ($scope, $stateParams, productService) {
+.controller('homeCtrl', ['$scope', '$stateParams', 'productService', '$cordovaSQLite',
+	function ($scope, $stateParams, productService, $cordovaSQLite) {
 
 		$scope.getProductList = function(){
-			productService.item_list.query(function(data){
+			var db = $cordovaSQLite.openDB({ name: "ProductApp.db" });
+			var create_table = 'CREATE TABLE IF NOT EXISTS producto (id, name, type, quantity, price)';
+      		var insert_table = "INSERT INTO producto (id, name, type, quantity, price) VALUES (?,?,?);";
+      		var select_table = "SELECT id, name, type, quantity, price from producto";
+
+  			// Crear Tabla
+	      	$cordovaSQLite.execute(db, create_table, []).then(function(res){
+	        	console.log("create table: " + res);
+	      	}, 
+	      	function(err){
+	        	console.error("Error create table: " + err);
+	      	});
+
+	      	productService.item_list.query(function(data){
 				$scope.list = data;
-		    });
+
+		      	for (var item in data) {
+		      		// Insertar Tabla
+	      			$cordovaSQLite.execute(db, insert_table, [ data[item].id, data[item].name, data[item].type, data[item].quantity, data[item].price] ).then(function(res){
+	        			console.log("insert: " + res);
+	      			}, function(err){
+		        		console.error("Error insert table: " + err);
+	      			});
+		      	}
+	      	});
+
+	      	// Select Tabla
+	      	$cordovaSQLite.execute(db, select_table, []).then(function(res){
+	        	$scope.select = res;
+	        	console.log("select table: " + res);
+	      	}, 
+	      	function(err){
+	        	console.error("Error select table: " + err);
+	      	});
+
 		}
 	
 		$scope.getProductDetail = function(_id){
