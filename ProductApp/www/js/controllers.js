@@ -4,39 +4,61 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 	function ($scope, $stateParams, productService, $cordovaSQLite) {
 
 		$scope.getProductList = function(){
-			var db = $cordovaSQLite.openDB({ name: "ProductApp.db" });
+			var db = $cordovaSQLite.openDB({ name: "ProductApp.db", location:'default' });
 			var create_table = 'CREATE TABLE IF NOT EXISTS producto (id, name, type, quantity, price)';
-      		var insert_table = "INSERT INTO producto (id, name, type, quantity, price) VALUES (?,?,?);";
-      		var select_table = "SELECT id, name, type, quantity, price from producto";
+      		var insert_table = "INSERT INTO producto (id, name, type, quantity, price) VALUES (?,?,?,?,?);";
+      		var select_table = "SELECT id, name, type, quantity, price from producto ORDER BY id";
+      		var delete_table = "DELETE from producto";
 
   			// Crear Tabla
 	      	$cordovaSQLite.execute(db, create_table, []).then(function(res){
-	        	console.log("create table: " + res);
+	        	console.log("Tabla producto creada");
 	      	}, 
 	      	function(err){
 	        	console.error("Error create table: " + err);
 	      	});
 
+	      	// Eliminar registros
+	      	$cordovaSQLite.execute(db, delete_table, []).then(function(res){
+	        	console.log("Registros eliminados");
+	      	}, 
+	      	function(err){
+	        	console.error("Error eliminar registro: " + err);
+	      	});
+
 	      	productService.item_list.query(function(data){
-				$scope.list = data;
+				//$scope.list = data;
 
 		      	for (var item in data) {
 		      		// Insertar Tabla
 	      			$cordovaSQLite.execute(db, insert_table, [ data[item].id, data[item].name, data[item].type, data[item].quantity, data[item].price] ).then(function(res){
-	        			console.log("insert: " + res);
+	        			console.log("Dato insertado");
 	      			}, function(err){
 		        		console.error("Error insert table: " + err);
 	      			});
 		      	}
-	      	});
 
-	      	// Select Tabla
-	      	$cordovaSQLite.execute(db, select_table, []).then(function(res){
-	        	$scope.select = res;
-	        	console.log("select table: " + res);
-	      	}, 
-	      	function(err){
-	        	console.error("Error select table: " + err);
+				// Select Tabla
+		      	$cordovaSQLite.execute(db, select_table).then(function(res){
+		        	
+		        	console.log("select table");
+		        	console.log("Cantidad de registros: " + res.rows.length);
+		        	
+		        	//$scope.list = res.rows.item;
+		        	//console.log($scope.list);
+
+		        	var listInt = [];
+		        	for (var i = 0; i < res.rows.length; i++) {
+		        		listInt.push(res.rows.item(i));
+		        		//console.log("Nombre:" + res.rows.item(i).name);
+		        	}
+
+		        	$scope.list = listInt;
+
+		      	}, 
+		      	function(err){
+		        	console.error("Error select table: " + err);
+		      	});
 	      	});
 
 		}
