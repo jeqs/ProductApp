@@ -116,6 +116,7 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 	}
 ])
 
+
 .controller('registrarCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
 	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
 
