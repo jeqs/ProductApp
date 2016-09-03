@@ -158,8 +158,20 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 	} // fin function
 ])
    
-.controller('crearProductoCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state',
-	function ($scope, $stateParams, productService, $cordovaDialogs, $state) {
+.controller('crearProductoCtrl', ['$scope', '$stateParams', 'productService', '$cordovaDialogs', '$state', '$ionicModal',
+	function ($scope, $stateParams, productService, $cordovaDialogs, $state, $ionicModal) {
+
+		$ionicModal.fromTemplateUrl('templates/crearProducto.html', {
+	    	scope: $scope,
+	    	animation: 'slide-in-up'
+	  	}).then(function(modal) {
+	    	$scope.modal = modal;
+	  	});
+
+	  	// Carga el modal, cuando se carga la pantalla
+	  	document.addEventListener("deviceready", function(){ 
+	  		$scope.modal.show();
+	  	}, false);
 
 	    $scope.productCreate = function(_name, _type, _quantity, _price){
 
