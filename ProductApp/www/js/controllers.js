@@ -3,11 +3,13 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 .controller('homeCtrl', ['$scope', '$stateParams', 'productService', '$cordovaSQLite',
 	function ($scope, $stateParams, productService, $cordovaSQLite) {
 
-		$scope.getProductList = function(){
+		// $scope.getProductList = function(){
+		document.addEventListener("deviceready", function(){
 			var db = $cordovaSQLite.openDB({ name: "ProductApp.db", location:'default' });
 			var create_table = 'CREATE TABLE IF NOT EXISTS producto (id, name, type, quantity, price)';
       		var insert_table = "INSERT INTO producto (id, name, type, quantity, price) VALUES (?,?,?,?,?);";
       		var select_table = "SELECT id, name, type, quantity, price from producto ORDER BY id";
+      		var selectwhere_table = "SELECT id, name, type, quantity, price from producto WHERE id = 63";
       		var delete_table = "DELETE from producto";
 
   			// Crear Tabla
@@ -39,18 +41,15 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 		      	}
 
 				// Select Tabla
-		      	$cordovaSQLite.execute(db, select_table).then(function(res){
+		      	$cordovaSQLite.execute(db, select_table, []).then(function(res){
 		        	
 		        	console.log("select table");
 		        	console.log("Cantidad de registros: " + res.rows.length);
 		        	
-		        	//$scope.list = res.rows.item;
-		        	//console.log($scope.list);
-
 		        	var listInt = [];
 		        	for (var i = 0; i < res.rows.length; i++) {
 		        		listInt.push(res.rows.item(i));
-		        		//console.log("Nombre:" + res.rows.item(i).name);
+		        		console.log("Id:" + res.rows.item(i).id);
 		        	}
 
 		        	$scope.list = listInt;
@@ -61,7 +60,23 @@ angular.module('app.controllers', ['app.services', 'ngCordova'])
 		      	});
 	      	});
 
-		}
+	      	// Select 1 registro
+	      	$cordovaSQLite.execute(db, selectwhere_table, []).then(function(res){
+
+	        	var listInt = [];
+	        	for (var i = 0; i < res.rows.length; i++) {
+	        		listInt.push(res.rows.item(i));
+	        		console.log("Select producto Id 63:" + res.rows.item(i).id);
+	        	}
+
+	        	$scope.list = listInt;
+
+	      	}, 
+	      	function(err){
+	        	console.error("Error select registro 63: " + err);
+	      	});
+
+		}, false);
 	
 		$scope.getProductDetail = function(_id){
 			$stateParams.id = _id;
